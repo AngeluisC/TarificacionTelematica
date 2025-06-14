@@ -13,12 +13,25 @@ En esta etapa inicial, cargamos los datos, los limpiamos y, lo más importante, 
 
 ```{r setup, message=FALSE, warning=FALSE}
 # Cargar todas las librerías necesarias para el proyecto
-install.packages("pacman")
-install.packages("xts")
-install.packages("CASdatasets", repos = "http://dutangc.free.fr/pub/RRepos/pub/", type="source")
-pacman::p_load(dplyr, ggplot2, tidyr, forcats, scales, janitor, corrplot, glmnet, xgboost, mgcv, DT,CASdatasets)
+library(pacman)
+pacman::p_load(
+  dplyr, 
+  ggplot2, 
+  tidyr, 
+  forcats, 
+  scales, 
+  janitor, 
+  corrplot, 
+  glmnet, 
+  xgboost, 
+  mgcv, 
+  DT,
+  CASdatasets # Asegúrate de que pacman también lo cargue
+)
 
 
+#renv::snapshot()
+#rsconnect::writeManifest()
 # Cargar y limpiar datos
 data(catelematic13)
 base_data <- catelematic13 %>%
