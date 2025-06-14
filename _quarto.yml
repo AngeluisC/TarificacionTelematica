@@ -1,21 +1,24 @@
 project:
   type: website
+  output-dir: docs
 
 website:
-  title: "TarificacionTelematica"
+  title: "Tarificación Telemática"
   navbar:
     left:
       - href: index.qmd
-        text: Home
-      - about.qmd
+        text: Introducción
+      - href: about.qmd
+        text: 1. Ing. de Características
+
+  page-footer:
+    right: "Angel Colmenares 2025"
+    left: "Actuarial Insurtech: Tarificacion Telematica"
 
 format:
   html:
     theme:
-      - cosmo
-      - brand
-    css: styles.css
+      light: cosmo
+      dark: darkly
     toc: true
-
-editor: visual
 
