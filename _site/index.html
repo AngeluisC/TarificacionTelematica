@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>TarificacionTelematica</title>
+<title>Introducción al Pipeline de Modelado – TarificacionTelematica</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,15 +143,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#flujo-de-trabajo-del-proyecto" id="toc-flujo-de-trabajo-del-proyecto" class="nav-link active" data-scroll-target="#flujo-de-trabajo-del-proyecto">Flujo de Trabajo del Proyecto</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">TarificacionTelematica</h1>
+<h1 class="title">Introducción al Pipeline de Modelado</h1>
 </div>
 
 
@@ -168,16 +174,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This is a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
+<p>Este sitio web demuestra un flujo de trabajo de modelado actuarial completo, desde el análisis exploratorio hasta la evaluación del impacto de negocio, utilizando datos telemáticos reales de una aseguradora canadiense.</p>
+<p>El objetivo es comparar diferentes estrategias de modelado para encontrar el mejor enfoque que equilibre poder predictivo, interpretabilidad y robustez.</p>
+<section id="flujo-de-trabajo-del-proyecto" class="level3">
+<h3 class="anchored" data-anchor-id="flujo-de-trabajo-del-proyecto">Flujo de Trabajo del Proyecto</h3>
+<p>El análisis sigue un orden lógico a través de las pestañas del menú:</p>
+<section id="ingeniería-de-características" class="level4">
+<h4 class="anchored" data-anchor-id="ingeniería-de-características">1. Ingeniería de Características</h4>
+<p>Las variables telemáticas puras (ej. aceleraciones a 6, 8, 9 mph/s) suelen estar altamente correlacionadas entre sí. En esta página, aplicamos ‘Ingeniería de Características’ para agrupar estas variables granulares en conceptos de negocio más interpretables y robustos, como <code>total_eventos_frenado</code> o <code>intensidad_total_giro</code>. Los mapas de calor demuestran visualmente cómo este proceso reduce la multicolinealidad.</p>
+</section>
+<section id="selección-de-variables" class="level4">
+<h4 class="anchored" data-anchor-id="selección-de-variables">2. Selección de Variables</h4>
+<p>No todas las características que creamos serán igual de importantes. En esta sección, utilizamos dos potentes algoritmos de Machine Learning para que seleccionen automáticamente el subconjunto más relevante de nuestras nuevas características ingenieriles: * <strong>Elastic Net:</strong> Un modelo de regresión que selecciona variables y maneja bien la correlación. * <strong>XGBoost:</strong> Un modelo de boosting que clasifica las variables por importancia.</p>
+</section>
+<section id="pipeline-glm" class="level4">
+<h4 class="anchored" data-anchor-id="pipeline-glm">3. Pipeline GLM</h4>
+<p>Aquí construimos y evaluamos un <strong>Modelo Lineal Generalizado (GLM)</strong>, el estándar de la industria por su alta interpretabilidad. El modelo final combina las variables demográficas con las características telemáticas seleccionadas en el paso anterior. Analizamos sus coeficientes, diagnósticos y resultados de negocio.</p>
+</section>
+<section id="pipeline-gam" class="level4">
+<h4 class="anchored" data-anchor-id="pipeline-gam">4. Pipeline GAM</h4>
+<p>En esta sección, exploramos una alternativa más flexible al GLM: un <strong>Modelo Aditivo Generalizado (GAM)</strong>. Los GAMs son capaces de capturar relaciones <strong>no lineales</strong> complejas entre las variables (como la edad) y el riesgo, lo que potencialmente puede llevar a un modelo más preciso. También construimos, diagnosticamos y evaluamos este modelo.</p>
+</section>
+<section id="comparativa-final" class="level4">
+<h4 class="anchored" data-anchor-id="comparativa-final">5. Comparativa Final</h4>
+<p>Esta es la pestaña final y más importante, donde se cuantifica el valor de cada estrategia. Comparamos directamente el rendimiento del mejor modelo GLM contra el mejor modelo GAM usando métricas clave: * <strong>Poder Predictivo (Lift Chart):</strong> ¿Qué modelo es mejor para segmentar el riesgo? * <strong>Impacto Financiero:</strong> ¿Qué modelo genera una estructura de primas más rentable y justa? * <strong>Criterios Estadísticos (AIC/BIC):</strong> ¿Qué modelo ofrece el mejor balance entre ajuste y simplicidad?</p>
+<p>Este flujo de trabajo completo nos permite tomar una decisión informada y basada en evidencia sobre qué modelo es el más adecuado para los objetivos del negocio.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rsconnect::writeManifest()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
